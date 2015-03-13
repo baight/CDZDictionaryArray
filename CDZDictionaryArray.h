@@ -1,6 +1,6 @@
 //
 //  CDZDictionaryArray.h
-//  HappyKTV
+//  
 //
 //  Created by zhengchen2 on 14-9-5.
 //  Copyright (c) 2014年 zhengchen2 All rights reserved.

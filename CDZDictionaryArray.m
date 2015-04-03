@@ -46,6 +46,17 @@
     [_array addObject:anObject];
     [_dictionary setObject:anObject forKey:aKey];
 }
+-(void)insertObject:(id)anObject atIndex:(NSUInteger)index forKey:(id<NSCopying>)aKey{
+    if(aKey == nil || anObject == nil){
+        return;
+    }
+    id object = [_dictionary objectForKey:aKey];
+    if(object){
+        [_array removeObject:object];
+    }
+    [_array insertObject:anObject atIndex:index];
+    [_dictionary setObject:anObject forKey:aKey];
+}
 
 -(BOOL)containsObject:(id)anObject{
     if(anObject == nil){

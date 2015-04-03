@@ -18,6 +18,7 @@
 -(NSMutableDictionary*)mutableDictionary;
 
 -(void)addObject:(id)anObject forKey:(id<NSCopying>)aKey;
+-(void)insertObject:(id)anObject atIndex:(NSUInteger)index forKey:(id<NSCopying>)aKey;
 -(void)removeObject:(id)anObject;
 -(BOOL)containsObject:(id)anObject;
 -(BOOL)containsObjectForKey:(id)aKey;

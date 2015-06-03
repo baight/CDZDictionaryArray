@@ -10,36 +10,39 @@
 
 @interface CDZDictionaryArray : NSObject <NSFastEnumeration>{
     NSMutableArray* _array;
+    NSMutableArray* _keyArray;
     NSMutableDictionary* _dictionary;
 }
 
--(id)initWithCapacity:(NSUInteger)numItems;
--(NSMutableArray*)mutableArray;
--(NSMutableDictionary*)mutableDictionary;
+- (id)initWithCapacity:(NSUInteger)numItems;
+- (NSMutableArray*)mutableArray;
+- (NSMutableDictionary*)mutableDictionary;
 
--(void)addObject:(id)anObject forKey:(id<NSCopying>)aKey;
--(void)insertObject:(id)anObject atIndex:(NSUInteger)index forKey:(id<NSCopying>)aKey;
--(void)removeObject:(id)anObject;
--(BOOL)containsObject:(id)anObject;
--(BOOL)containsObjectForKey:(id)aKey;
+- (void)addObject:(id)anObject forKey:(id<NSCopying>)aKey;
+- (void)insertObject:(id)anObject atIndex:(NSUInteger)index forKey:(id<NSCopying>)aKey;
+- (void)removeObject:(id)anObject;
+- (BOOL)containsObject:(id)anObject;
+- (BOOL)containsObjectForKey:(id)aKey;
 
 // 存在aKey，则进行替换，不存在则进行简单添加
--(void)replaceObjectForKey:(id)aKey withObject:(id)anObject;
+- (void)replaceObjectForKey:(id)aKey withObject:(id)anObject;
 
--(NSInteger)count;
--(NSInteger)indexOfObject:(id)anObject;
--(NSInteger)indexForKey:(id)aKey;
+- (NSInteger)count;
+- (NSInteger)indexOfObject:(id)anObject;
+- (NSInteger)indexForKey:(id)aKey;
 
--(id)firstObject;
--(id)lastObject;
--(id)objectAtIndex:(NSUInteger)index;
--(id)objectForKey:(id)aKey;
+- (id)firstObject;
+- (id)lastObject;
+- (id)objectAtIndex:(NSUInteger)index;
+- (id)objectForKey:(id)aKey;
 
 // 获取 anObject 的 key
--(id)keyOfObject:(id)anObject;
+- (id)keyOfObject:(id)anObject;
 
--(void)removeAllObjects;
--(void)removeObjectForKey:(id)aKey;
--(void)removeLastObject;
+- (void)removeAllObjects;
+- (void)removeObjectForKey:(id)aKey;
+- (void)removeLastObject;
+
+- (void)enumerateUsingBlock:(void (^)(id key, id obj, NSUInteger idx,BOOL *stop))block;
 
 @end

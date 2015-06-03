@@ -14,6 +14,7 @@
     self = [super init];
     if(self){
         _array = [[NSMutableArray alloc]init];
+        _keyArray = [[NSMutableArray alloc]init];
         _dictionary = [[NSMutableDictionary alloc]init];
     }
     return self;
@@ -23,6 +24,7 @@
     self = [super init];
     if(self){
         _array = [[NSMutableArray alloc]initWithCapacity:numItems];
+        _keyArray = [[NSMutableArray alloc]initWithCapacity:numItems];
         _dictionary = [[NSMutableDictionary alloc]initWithCapacity:numItems];
     }
     return self;
@@ -40,10 +42,13 @@
     }
     id object = [_dictionary objectForKey:aKey];
     if(object){
-        [_array removeObject:object];
+        NSInteger index = [_array indexOfObject:object];
+        [_array removeObjectAtIndex:index];
+        [_keyArray removeObjectAtIndex:index];
     }
     
     [_array addObject:anObject];
+    [_keyArray addObject:aKey];
     [_dictionary setObject:anObject forKey:aKey];
 }
 -(void)insertObject:(id)anObject atIndex:(NSUInteger)index forKey:(id<NSCopying>)aKey{
@@ -52,9 +57,12 @@
     }
     id object = [_dictionary objectForKey:aKey];
     if(object){
-        [_array removeObject:object];
+        NSInteger index = [_array indexOfObject:object];
+        [_array removeObjectAtIndex:index];
+        [_keyArray removeObjectAtIndex:index];
     }
     [_array insertObject:anObject atIndex:index];
+    [_keyArray insertObject:aKey atIndex:index];
     [_dictionary setObject:anObject forKey:aKey];
 }
 
@@ -78,9 +86,11 @@
     if(object){
         NSInteger index = [_array indexOfObject:object];
         [_array replaceObjectAtIndex:index withObject:anObject];
+        [_keyArray replaceObjectAtIndex:index withObject:aKey];
     }
     else{
         [_array addObject:anObject];
+        [_keyArray addObject:aKey];
     }
     [_dictionary setObject:anObject forKey:aKey];
 }
@@ -93,19 +103,25 @@
     if(aKey){
         [_dictionary removeObjectForKey:aKey];
     }
-    [_array removeObject:anObject];
+    NSInteger index = [_array indexOfObject:anObject];
+    [_array removeObjectAtIndex:index];
+    [_keyArray removeObjectAtIndex:index];
 }
 
 -(void)removeAllObjects{
     [_dictionary removeAllObjects];
     [_array removeAllObjects];
+    [_keyArray removeAllObjects];
 }
 -(void)removeObjectForKey:(id)aKey{
     if(aKey == nil){
         return;
     }
     id object = [_dictionary objectForKey:aKey];
-    [_array removeObject:object];
+    
+    NSInteger index = [_array indexOfObject:object];
+    [_array removeObjectAtIndex:index];
+    [_keyArray removeObjectAtIndex:index];
     [_dictionary removeObjectForKey:aKey];
 }
 -(void)removeLastObject{
@@ -115,6 +131,7 @@
         [_dictionary removeObjectForKey:aKey];
     }
     [_array removeLastObject];
+    [_keyArray removeLastObject];
 }
 -(id)firstObject{
     return [_array firstObject];
@@ -161,6 +178,14 @@
         }
     }
     return nil;
+}
+
+- (void)enumerateUsingBlock:(void (^)(id key, id obj, NSUInteger idx,BOOL *stop))block{
+    [_keyArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        id key = obj;
+        id object = [_array objectAtIndex:idx];
+        block(key, object, idx, stop);
+    }];
 }
 
 #pragma mark - NSFastEnumeration

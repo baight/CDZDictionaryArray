@@ -42,7 +42,7 @@
     }
     id object = [_dictionary objectForKey:aKey];
     if(object){
-        NSInteger index = [_array indexOfObject:object];
+        NSUInteger index = [_array indexOfObject:object];
         [_array removeObjectAtIndex:index];
         [_keyArray removeObjectAtIndex:index];
     }
@@ -171,13 +171,13 @@
 
 // 获取 anObject 的 key
 -(id)keyOfObject:(id)anObject{
-    for(NSString *key in _dictionary){
-        id object = [_dictionary objectForKey:key];
-        if(object == anObject){
-            return key;
-        }
+    NSUInteger index = [_array indexOfObject:anObject];
+    if(index < _keyArray.count){
+        return [_keyArray objectAtIndex:index];
     }
-    return nil;
+    else{
+        return nil;
+    }
 }
 
 - (void)enumerateUsingBlock:(void (^)(id key, id obj, NSUInteger idx,BOOL *stop))block{
